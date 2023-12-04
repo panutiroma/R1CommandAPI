@@ -1,15 +1,20 @@
 ﻿using CommandAPI.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CommandAPI
 {
     public class Startup
     {
-        public Startup()
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration)
         {
+            Configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CommandContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddControllers();
 
             services.AddScoped<ICommandAPIRepo, MockCommandAPIRepo>();
