@@ -1,0 +1,2 @@
+delete from CommandItem where HowTo='Create an EF Migration' and "Platform"='Entity Framework Package Manager Console' and "CommandLine"='add-migration <name of migration>'
+delete from CommandItem where HowTo='Apply Migrations to DB' and "Platform"='Entity Framework Package Manager Console' and "CommandLine"='update database'
