@@ -17,5 +17,8 @@ namespace CommandAPI.Models
 
         [Required]
         public string? CommandLine { get; set; }
+
+        [Required]
+        public bool SoftDeleted { get; set; }
     }
 }

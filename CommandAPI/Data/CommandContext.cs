@@ -10,5 +10,7 @@ namespace CommandAPI.Data
         }
 
         public DbSet<Command> CommandItem { get; set; }
+
+        public IList<Command> GetCommandItems() => this.CommandItem.Where(c => !c.SoftDeleted).ToList();
     }
 }

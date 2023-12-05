@@ -12,7 +12,12 @@ namespace CommandAPI.Data
 
         public void CreateCommand(Command cmd)
         {
-            throw new NotImplementedException();
+            if (cmd == null)
+            {
+                throw new ArgumentNullException(nameof(cmd));
+            }
+
+            _context.CommandItem.Add(cmd);
         }
 
         public void DeleteCommand(Command cmd)
@@ -22,22 +27,22 @@ namespace CommandAPI.Data
 
         public IEnumerable<Command> GetAllCommands()
         {
-            return _context.CommandItem.ToList();
+            return _context.GetCommandItems();
         }
 
         public Command? GetCommandById(int id)
         {
-            return _context.CommandItem.FirstOrDefault(p => p.Id == id);
+            return _context.GetCommandItems().FirstOrDefault(p => p.Id == id);
         }
 
         public bool SaveChanges()
         {
-            throw new NotImplementedException();
+            return (_context.SaveChanges() >= 0);
         }
 
         public void UpdateCommand(Command cmd)
         {
-            throw new NotImplementedException();
+            //We don't need to do anything here
         }
     }
 }
