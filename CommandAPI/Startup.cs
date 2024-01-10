@@ -1,5 +1,6 @@
 ﻿using CommandAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace CommandAPI
 {
@@ -13,11 +14,13 @@ namespace CommandAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CommandContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<CommandContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
 
-            services.AddScoped<ICommandAPIRepo, SqlCommandAPIRepo>();
+            services.AddScoped<ICommandAPIRepo, MockCommandAPIRepo>();
+
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -25,6 +28,11 @@ namespace CommandAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
             }
 
             app.UseRouting();
