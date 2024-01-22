@@ -19,6 +19,7 @@ public class Program
         var builder = WebHost.CreateDefaultBuilder(args);
 
         var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development;
+        Console.WriteLine(isDevelopment ? "Is Development" : "Is Production");
 
         builder.ConfigureAppConfiguration((hostingContext, config) =>
         {

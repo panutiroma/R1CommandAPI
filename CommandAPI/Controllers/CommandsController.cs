@@ -16,6 +16,10 @@ namespace CommandAPI.Controllers
             _repository = repository;
         }
 
+        /// <summary>
+        /// Get All Commands
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("get-all")]
         [Authorize]
         public ActionResult<IEnumerable<Command>> GetAllCommands()
@@ -24,6 +28,11 @@ namespace CommandAPI.Controllers
             return Ok(commandItems);
         }
 
+        /// <summary>
+        /// Get Command By Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize]
         public ActionResult<Command> GetCommandById(int id)
