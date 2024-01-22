@@ -1,6 +1,7 @@
 ﻿using CommandAPI.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using CommandAPI.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 
 namespace CommandAPI
 {
@@ -14,7 +15,22 @@ namespace CommandAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppSettings>(Configuration.GetSection("CommandApi"));
+
+            // Build an intermediate service provider
+            var serviceProvider = services.BuildServiceProvider();
+            // Resolve the AppSettings from the service provider
+            var settings = serviceProvider.GetService<IOptions<AppSettings>>().Value;
+
             //services.AddDbContext<CommandContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.Audience = settings.ResourceId;
+                    opt.Authority = $"{settings.Instance}{settings.TenantId}";
+                });
 
             services.AddControllers();
 
@@ -28,14 +44,15 @@ namespace CommandAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-
-                app.UseSwagger();
-                app.UseSwaggerUI();
-
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

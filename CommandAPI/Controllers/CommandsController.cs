@@ -1,5 +1,6 @@
 ﻿using CommandAPI.Data;
 using CommandAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CommandAPI.Controllers
@@ -16,6 +17,7 @@ namespace CommandAPI.Controllers
         }
 
         [HttpGet("get-all")]
+        [Authorize]
         public ActionResult<IEnumerable<Command>> GetAllCommands()
         {
             var commandItems = _repository.GetAllCommands();
@@ -23,6 +25,7 @@ namespace CommandAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<Command> GetCommandById(int id)
         {
             var commandItem = _repository.GetCommandById(id);
